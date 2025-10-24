@@ -19,6 +19,9 @@ dnf install -y kitty
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
  
+sudo dnf -ycopr enable yalter/niri
+sudo dnf -y install niri
+
 sudo dnf -y copr enable alternateved/keyd
 sudo dnf -y install keyd
 
