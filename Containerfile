@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/bazzite:stable
+FROM ghcr.io/ublue-os/aurora-dx:stable
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -23,7 +23,7 @@ FROM ghcr.io/ublue-os/bazzite:stable
 ## Uncomment the following line if one desires to make /opt immutable and be able to be used
 ## by the package manager.
 
-# RUN rm /opt && mkdir /opt
+RUN rm /opt && mkdir /opt
 
 ### MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
@@ -34,7 +34,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
-    
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint

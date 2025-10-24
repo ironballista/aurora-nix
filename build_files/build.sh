@@ -10,7 +10,7 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux 
+dnf install -y kitty
 
 # Use a COPR Example:
 #
@@ -18,7 +18,30 @@ dnf5 install -y tmux
 # dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
+ 
+sudo dnf -y copr enable alternateved/keyd
+sudo dnf -y install keyd
+
+echo <<EOF
+[ids]
+
+*
+
+[main]
+rightalt = layer(movement)
+
+[movement:G]
+h = left
+k = up
+j = down
+l = right
+enter = leftmouse
+backspace = rightmouse
+EOF | sudo tee /etc/keyd/default.conf
 
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+install -d -m 0755 /nix
+
