@@ -46,5 +46,4 @@ EOF | sudo tee /etc/keyd/default.conf
 
 systemctl enable podman.socket
 
-install -d -m 0755 /nix
 
