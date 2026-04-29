@@ -46,4 +46,26 @@ EOF | sudo tee /etc/keyd/default.conf
 
 systemctl enable podman.socket
 
+#### Enabling biometric unlock for the Bitwarden Flatpak
+# Based on instructions from: https://bitwarden.com/help/biometrics/#tab-linux-2vCWb5iFg4OqKS0B2xXpqW
+echo <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+
+<policyconfig>
+    <action id="com.bitwarden.Bitwarden.unlock">
+      <description>Unlock Bitwarden</description>
+      <message>Authenticate to unlock Bitwarden</message>
+      <defaults>
+        <allow_any>no</allow_any>
+        <allow_inactive>no</allow_inactive>
+        <allow_active>auth_self</allow_active>
+      </defaults>
+    </action>
+</policyconfig>
+EOF | sudo tee /usr/share/polkit-1/actions/com.Bitwarden.policy && \
+  sudo chown root:root /usr/share/polkit-1/actions/com.Bitwarden.policy && \
+  sudo chcon system_u:object_r:usr_t:s0
 
